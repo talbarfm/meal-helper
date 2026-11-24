@@ -2,12 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Recipe with {{ ingredient }}</title>
+    <title>{% if ingredient %}Recipe with {{ ingredient }}{% else %}{{ recipe.name }}{% endif %}</title>
 </head>
 <body>
+{% if ingredient %}
 <h1>Here's a recipe that contains {{ ingredient.replace("_", " ") }}!</h1>
+{% else %}
+<h1>Your personal recipe</h1>
+{% endif %}
 <h2>{{ recipe.name }}</h2>
-<img src="{{ recipe.image }}">
+{% if recipe.image %}<img src="{{ recipe.image }}" alt="{{ recipe.name }}">{% endif %}
 <div>
     <ul>
         {% for name, measure in recipe.ingredients.items() %}
@@ -16,6 +20,8 @@
     </ul>
 </div>
 <p>{{ recipe.instructions }}</p>
+{% if recipe.video %}
 <p>Here's a <a href="{{ recipe.video }}">video</a> if you need further help.</p>
+{% endif %}
 </body>
 </html>
